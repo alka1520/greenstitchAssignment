@@ -24,6 +24,7 @@ To get started with the project, follow the instructions below:
 3. Build the project using your preferred build tool (Maven or Gradle).
 4. Configure the H2 database connection in the `application.properties` file.
 5. Run the application.
+6. use Postman to hit the endpoints.
 
 ## API Endpoints
 
