@@ -31,31 +31,30 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 				
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (null != authentication) {
-        	
-            SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes());
-            
-            String jwt = Jwts.builder()
-            		.setIssuer("Alka")
-            		.setSubject("JWT Token")
-                    .claim("username", authentication.getName())
-                    .claim("authorities",authentication.getAuthorities())
-                    .setIssuedAt(new Date())
-                    .setExpiration(new Date(new Date().getTime()+ 30000000)) // expiration time of 8 hours
-                    .signWith(key).compact();
-            
-            response.setHeader(SecurityConstants.JWT_HEADER, jwt);
-        }
-
-        filterChain.doFilter(request, response);	
+	        if (null != authentication) {
+	        	
+	            SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes());
+	            String jwt = Jwts.builder()
+	            		.setIssuer("Alka")
+	            		.setSubject("JWT Token")
+			        .claim("username", authentication.getName())
+			        .claim("authorities",authentication.getAuthorities())
+			        .setIssuedAt(new Date())
+			        .setExpiration(new Date(new Date().getTime()+ 30000000)) 
+			        .signWith(key).compact();
+	            
+	            response.setHeader(SecurityConstants.JWT_HEADER, jwt);
+	        }
+	
+	        filterChain.doFilter(request, response);	
 		
 	}
 		
 		
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-	
-        return !request.getServletPath().equals("/logIn");	
+		
+		 return !request.getServletPath().equals("/logIn");	
 	}
 	
 
