@@ -5,9 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,17 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.greenstitch.model.Consumer;
 import com.greenstitch.repo.UserRepo;
 import com.greenstitch.service.UserService;
+
 import jakarta.validation.Valid;
 
 @RestController
 public class UserController {
 
+	@Autowired
+	private UserRepo userRepo;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
-	@Autowired
-	private UserRepo userRepo;
 	
 	@Autowired
 	private UserService userService;
@@ -36,16 +35,6 @@ public class UserController {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		String message = userService.registerUser(user);
 		return new ResponseEntity<>(message,HttpStatus.ACCEPTED);
-		
-	}
-	
-	@PostMapping("/logIn")
-	public ResponseEntity<Consumer> getLoggedInUserDetails(Authentication auth){
-		
-		Consumer user = userRepo.findByEmail(auth.getName()).orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
-		 System.out.println(user.getEmail());
-		 return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
-		
 		
 	}
 	

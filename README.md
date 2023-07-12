@@ -40,7 +40,7 @@ Request Payload:
 
 ```json
 {
-  "username": "john_doe",
+  "name": "john_doe",
   "email": "john.doe@example.com",
   "password": "P@ssw0rd"
 }
@@ -50,36 +50,26 @@ Response:
 
 ```json
 {
-  "message": "Registered Successfully."
+  "Registered Successfully."
 }
 ```
 
 ### Login
 
-Endpoint: `POST /localhost:8080/logIn`
+Endpoint: `GET /localhost:8080/logIn`
 
-Authenticates a user and generates a JWT token.
-
-Request Payload:
-
-```json
-{
-  "username": "john_doe",
-  "password": "P@ssw0rd"
-}
-```
+- Authenticates a user by using Basic auth.
+- Pass the username(email) and password.
+- Generates a JWT token.
 
 Response:
 
 ```json
 {
-  "username": "john_doe",
-  "email": "john.doe@example.com",
-  "password": "P@ssw0rd"
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huX2RvZSIsImlhdCI6MTYyNzE0NTM4OSwiZXhwIjoxNjI3MTQ5OTg5fQ.7Amc-gzTCnQmVp3Cex9U_Yi_EZLsX3F_2L3DPUL6UHE",
+  "username": "john.doe@example.com"
 }
 ```
-
-and token in Header with "Bearer" key
 
 ### Protected Resource
 

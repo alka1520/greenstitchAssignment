@@ -27,9 +27,8 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		
 		Optional<Consumer> opt = userRepo.findByEmail(email);
-
+		System.out.println(opt.get());
 		if(opt.isPresent()) {
-			
 			Consumer consumer = opt.get();
 			List<GrantedAuthority> authorities= new ArrayList<>();
 			return new User(consumer.getEmail(), consumer.getPassword(), authorities);		

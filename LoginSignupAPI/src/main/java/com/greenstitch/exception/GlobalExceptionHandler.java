@@ -25,16 +25,6 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<MyErrorDetails>(err, HttpStatus.NON_AUTHORITATIVE_INFORMATION);
 	}
 	
-	@ExceptionHandler(NoHandlerFoundException.class)
-	public ResponseEntity<MyErrorDetails> noHandlerFoundExceptionHandler(NoHandlerFoundException nfe,WebRequest req)  {
-			
-		MyErrorDetails err = new MyErrorDetails();
-		err.setTimestamp(LocalDateTime.now());
-		err.setMessage(nfe.getMessage());
-		err.setDetails(req.getDescription(false));
-		return new ResponseEntity<>(err,HttpStatus.BAD_REQUEST);
-					
-	}
 	
 	@ExceptionHandler(UserException.class)
 	public ResponseEntity<MyErrorDetails> userExceptionHandler(UserException ce, WebRequest req){

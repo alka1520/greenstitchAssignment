@@ -16,8 +16,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String registerUser(Consumer user) throws UserException {
 		
-		 userRepo.save(user);
-		 return "Registered Successfully";
+		if(user == null) throw new UserException("Invalid User");
+		userRepo.save(user);
+	    return "Registered Successfully";
 
 	}
 

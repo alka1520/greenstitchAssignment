@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
@@ -22,6 +23,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 
 	@Override
@@ -29,24 +31,19 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 			
 		String jwt = request.getHeader(SecurityConstants.JWT_HEADER);
-
 		if(jwt != null) {
 						
 			try {
-
 				//extracting the word Bearer
 				jwt = jwt.substring(7);
-
+				
 				SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes());
-		
+				
 				Claims claims= Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
-	
-				String username= String.valueOf(claims.get("email"));
-				
+				String username= String.valueOf(claims.get("username"));
 				List<GrantedAuthority> authorities=(List<GrantedAuthority>)claims.get("authorities");
+				
 				Authentication auth = new UsernamePasswordAuthenticationToken(username, null, authorities); 
-				
-				
 				SecurityContextHolder.getContext().setAuthentication(auth);
 				
 			} catch (Exception e) {
